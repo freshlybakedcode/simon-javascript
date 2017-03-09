@@ -1,0 +1,212 @@
+@import url(https://fonts.googleapis.com/css?family=Alfa+Slab+One);
+@import url(https://fonts.googleapis.com/css?family=Orbitron:400);
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+$green:    #44b07e;
+$red:      #f63a2e;
+$blue:     #3794a3;
+$yellow:   #ecb537;
+$body-gradient:     linear-gradient(to bottom, rgba(61,39,28,1) 0%, rgba(36,28,17,1) 100%);
+$silver-gradient:   linear-gradient(135deg, rgba(226,226,226,1) 7%,rgba(209,209,209,1) 25%,rgba(219,219,219,1) 39%,rgba(219,219,219,1) 53%,rgba(209,209,209,1) 68%,rgba(254,254,254,1) 95%);
+$red-gradient:      radial-gradient(ellipse at center, rgba(181,12,12,1) 48%,rgba(175,61,61,1) 100%);
+$alfa:     'Alfa Slab One';
+
+@mixin setBgColorAndLitClass($originalColor) {
+  background-color: $originalColor;
+    &.lit {
+      background-color: lighten($originalColor, 15%);
+      cursor: pointer;
+    }
+}
+
+h1 {
+  color: white;
+  font-size: 1em;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+.outer {
+  width: 500px;
+  height: 500px;
+  border-radius: 100%;
+  background: $body-gradient;
+  padding: 15px;
+  position: relative;
+  box-shadow: 1px 3px 3px 1px #111;
+}
+.inner {
+  position: absolute;
+  left: 125px;
+  top: 125px;
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  background: $body-gradient;
+}
+.inner-clip {
+  position: relative;
+  overflow: hidden;
+  width: 220px;
+  height: 220px;
+  border-radius: 100%;
+  font-size: 1em;
+  text-align: center;
+  margin: 15px;
+
+    .top {
+    height: 45%;
+    width: 100%;
+    background: black;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100% 100% 0 0;
+    color: rgba(209,209,209,1);
+    font-size: 2em;
+    padding: 30px 0 0 0;
+    border-bottom: 2px solid white;
+    font-family: $alfa;
+  }
+  .bottom {
+    height: 60%;
+    background: $silver-gradient;
+    border-top: 2px solid black;
+    border-radius: 0 0 100% 100%;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 10px 10px 0 10px;
+  }
+}
+.pad {
+  width: 211px;
+  height: 211px;
+  float: left;
+  margin: 12px;
+  box-shadow: -3px 3px 7px 0px #111;
+}
+.pad-green {
+  @include setBgColorAndLitClass($green);
+  border-radius: 250px 0 0 0;
+}
+.pad-red {
+  @include setBgColorAndLitClass($red);
+  border-radius: 0 250px 0 0;
+}
+.pad-blue {
+  @include setBgColorAndLitClass($blue);
+  border-radius: 0 0 250px 0;
+}
+.pad-yellow {
+  @include setBgColorAndLitClass($yellow);
+  border-radius: 0 0 0 250px;
+}
+
+.third {
+  width: 33%;
+  float: left;
+  display: block;
+}
+.text {
+  display: block;
+  text-transform: uppercase;
+  font-size: 0.7em;
+}
+.button {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  margin: 0 auto;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+.led {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  background: black;
+  margin-bottom: 4px;
+  &.lit {
+    background: red;
+    box-shadow: 0 0 3px 0 red;
+  }
+}
+.button-red {
+  background: $red-gradient;
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+}
+.button-yellow {
+  background: radial-gradient(ellipse at center, rgba(232,234,98,1) 0%,rgba(233,237,16,1) 52%);
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+}
+
+.count {
+  .number {
+    color: red;
+    background: #222;
+    padding: 8px 0;
+    display: block;
+    width: 60%;
+    margin: 0 auto;
+    font-size: 1.2em;
+    font-family: 'Orbitron';
+    border-radius: 4px;
+  }
+  .text {
+    margin-top: 5px;
+  }
+}
+
+.start {
+  padding-top: 9px;
+}
+
+.power {
+  width: 65%;
+  margin: 10px auto 0 auto;
+  display: inline-block;
+  .text {
+    width: 15%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+.switch {
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px;
+  margin: 0 5px;
+  .switch-channel {
+    display: block;
+    height: 20px;
+    width: 60px;
+    background: #333;
+    margin: 0 auto;
+    border-radius: 3px;
+  }
+  .switch-slider {
+    width: 35px;
+    height: 20px;
+    left: 0;
+    right: auto;
+    display: block;
+    position: relative;
+    background: $red-gradient;
+    overflow: auto;
+    border: 1px solid #333;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: left 0.2s ease;
+    &.on {
+      left: 25px;
+    }
+  }
+}
