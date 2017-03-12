@@ -89,6 +89,7 @@ h1 {
   float: left;
   margin: 12px;
   box-shadow: -3px 3px 7px 0px #111;
+  cursor: pointer;
 }
 .pad-green {
   @include setBgColorAndLitClass($green);
