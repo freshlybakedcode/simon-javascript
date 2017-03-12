@@ -136,18 +136,20 @@ h1 {
   background: radial-gradient(ellipse at center, #e8ea62 0%, #e9ed10 52%);
   box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff; }
 
-.count .number {
-  color: red;
-  background: #222;
-  padding: 8px 0;
-  display: block;
-  width: 60%;
-  margin: 0 auto;
-  font-size: 1.2em;
-  font-family: 'Orbitron';
-  border-radius: 4px; }
-.count .text {
-  margin-top: 5px; }
+.count {
+  padding-top: 5px; }
+  .count .number {
+    color: red;
+    background: #222;
+    padding: 8px 0;
+    display: block;
+    width: 60%;
+    margin: 0 auto;
+    font-size: 1.2em;
+    font-family: 'Orbitron';
+    border-radius: 4px; }
+  .count .text {
+    margin-top: 5px; }
 
 .start {
   padding-top: 9px; }

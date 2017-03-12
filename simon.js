@@ -2,6 +2,7 @@
 var sequence = [];
 var userSequence = [];
 var numberOfAttempts;
+var count = 0;
 
 function createSequence() {
   var randomnumber = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
@@ -50,11 +51,16 @@ function userLoses() {
 }
 
 function playGame() {
+  updateCount();
   userSequence = [];
   numberOfAttempts = 0;
   console.log('numberOfAttempts', numberOfAttempts);
   createSequence();
   configureSequence();
+}
+
+function updateCount() {
+  $('.count .number').html(("0" + count).slice(-2));
 }
 
 $(function() {
@@ -81,6 +87,8 @@ $(function() {
       numberOfAttempts++;
     } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
       console.log('That is the correct sequence! Next round.')
+      count++;
+      updateCount();
       setTimeout(function(){
         playGame();
       }, 1500);
