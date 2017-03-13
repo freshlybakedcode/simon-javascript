@@ -1,8 +1,16 @@
-
 var sequence = [];
 var userSequence = [];
 var numberOfAttempts;
-var count = 0;
+var count;
+var strictMode = false;
+var powerOn =  true;
+
+function newGameSetup() {
+  sequence.length = 0;
+  userSequence.length = 0;
+  numberOfAttempts = 0;
+  count = 0;
+}
 
 function createSequence() {
   var randomnumber = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
@@ -12,9 +20,9 @@ function createSequence() {
 
 function configureSequence() {
   for (let i=0; i<sequence.length; i++) {
-      setTimeout( function timer(){
-          playAudioAndSound(sequence[i]);
-      }, i*500 );
+    setTimeout( function timer(){
+      playAudioAndSound(sequence[i]);
+    }, i*500 );
   }
 }
 
@@ -47,7 +55,7 @@ function playAudioAndSound(key) {
 }
 
 function userLoses() {
-  console.log(`You fucked up, but got to round ${sequence.length}.`);
+  console.log(`You fucked up, but got to round ${count}.`);
 }
 
 function playGame() {
@@ -63,39 +71,41 @@ function updateCount() {
   $('.count .number').html(("0" + count).slice(-2));
 }
 
-$(function() {
-  $('.button-strict').click(function() {
-    $(this).prev().toggleClass('lit');
-  });
-  $('.switch-slider').click(function() {
-    $(this).toggleClass('on');
-  });
+//User input
+$('.pad').click(function() {
+  userSequence.push(JSON.parse(this.id));
+    console.log('userSequence: ', userSequence);
+    console.log('numberOfAttempts', numberOfAttempts);
+    console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
 
+  playAudioAndSound(userSequence[numberOfAttempts]);
 
-  $('.pad').click(function() {
-    userSequence.push(JSON.parse(this.id));
-      console.log('userSequence: ', userSequence);
-      console.log('numberOfAttempts', numberOfAttempts);
-      console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
-
-    playAudioAndSound(userSequence[numberOfAttempts]);
-
-    if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-      userLoses();
-    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
-      console.log('That is the correct pad');
-      numberOfAttempts++;
-    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
-      console.log('That is the correct sequence! Next round.')
-      count++;
-      updateCount();
-      setTimeout(function(){
-        playGame();
-      }, 1500);
-    } else {
-      console.log('Something else totally fucked itself');
-    }
-  });
+  if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
+    userLoses();
+  } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
+    console.log('That is the correct pad');
+    numberOfAttempts++;
+  } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
+    console.log('That is the correct sequence! Next round.')
+    count++;
+    updateCount();
+    setTimeout(function(){
+      playGame();
+    }, 1500);
+  } else {
+    console.log('Something else totally fucked itself');
+  }
 });
 
+newGameSetup();
 playGame();
+
+//Button controls
+$('.button-strict').click(function() {
+  $(this).prev().toggleClass('lit');
+  strictMode = !strictMode;
+});
+$('.switch-slider').click(function() {
+  $(this).toggleClass('on');
+  powerOn = !powerOn;
+});
