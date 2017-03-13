@@ -148,6 +148,8 @@ h1 {
     font-size: 1.2em;
     font-family: 'Orbitron';
     border-radius: 4px; }
+    .count .number.hidden {
+      color: #222; }
   .count .text {
     margin-top: 5px; }
 

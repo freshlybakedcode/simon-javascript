@@ -4,6 +4,7 @@ var numberOfAttempts;
 var count;
 var strictMode = false;
 var powerOn =  true;
+var gameInPlay = false;
 
 function newGameSetup() {
   sequence.length = 0;
@@ -56,9 +57,11 @@ function playAudioAndSound(key) {
 
 function userLoses() {
   console.log(`You fucked up, but got to round ${count}.`);
+  gameInPlay = false;
 }
 
 function playGame() {
+  gameInPlay = true;
   updateCount();
   userSequence = [];
   numberOfAttempts = 0;
@@ -73,39 +76,57 @@ function updateCount() {
 
 //User input
 $('.pad').click(function() {
-  userSequence.push(JSON.parse(this.id));
-    console.log('userSequence: ', userSequence);
-    console.log('numberOfAttempts', numberOfAttempts);
-    console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
+  if(powerOn && gameInPlay) {
+    userSequence.push(JSON.parse(this.id));
+      console.log('userSequence: ', userSequence);
+      console.log('numberOfAttempts', numberOfAttempts);
+      console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
 
-  playAudioAndSound(userSequence[numberOfAttempts]);
+    playAudioAndSound(userSequence[numberOfAttempts]);
 
-  if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-    userLoses();
-  } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
-    console.log('That is the correct pad');
-    numberOfAttempts++;
-  } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
-    console.log('That is the correct sequence! Next round.')
-    count++;
-    updateCount();
-    setTimeout(function(){
-      playGame();
-    }, 1500);
-  } else {
-    console.log('Something else totally fucked itself');
+    if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
+      userLoses();
+    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
+      console.log('That is the correct pad');
+      numberOfAttempts++;
+    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
+      console.log('That is the correct sequence! Next round.')
+      count++;
+      updateCount();
+      setTimeout(function(){
+        playGame();
+      }, 1500);
+    } else {
+      console.log('Something else totally fucked itself');
+    }
   }
 });
 
-newGameSetup();
-playGame();
-
 //Button controls
-$('.button-strict').click(function() {
-  $(this).prev().toggleClass('lit');
-  strictMode = !strictMode;
-});
 $('.switch-slider').click(function() {
   $(this).toggleClass('on');
   powerOn = !powerOn;
+  console.log('powerOn: ', powerOn);
+  if (powerOn) {
+    $('.count .number').removeClass('hidden');
+  } else {
+    $('.count .number').addClass('hidden');
+    newGameSetup();
+    updateCount();
+    gameInPlay = false;
+  }
+});
+
+$('.button-strict').click(function() {
+  if (powerOn) {
+    $(this).prev().toggleClass('lit');
+    strictMode = !strictMode;
+  }
+});
+
+$('.button-start').click(function() {
+  if (powerOn) {
+    newGameSetup();
+    playGame();
+  }
 });
