@@ -46,13 +46,26 @@ function playAudioAndSound(key) {
       var relevantPad = '#3';
       break;
     default:
-      console.log('Something broke terribly');
+      var audio = new Audio('./audio/simonSound4.mp3');
   }
   audio.play();
   setTimeout(function(){
     $(relevantPad).toggleClass('lit');
   }, 500);
   $(relevantPad).toggleClass('lit');
+}
+
+function giveUserAnotherChance() {
+  let tempCount = count;
+  count = '!!';
+  updateCount();
+  userSequence.length = 0;
+  numberOfAttempts = 0;
+  setTimeout(function(){
+    configureSequence();
+    count = tempCount;
+    updateCount();
+  }, 1500);
 }
 
 function userLoses() {
@@ -88,7 +101,7 @@ $('.pad').click(function() {
       if(strictMode) {
         userLoses();
       } else {
-        configureSequence();
+        giveUserAnotherChance();
       }
     } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
       console.log('That is the correct pad');
