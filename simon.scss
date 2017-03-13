@@ -23,6 +23,12 @@ $alfa:     'Alfa Slab One';
     }
 }
 
+body {
+  background: #ef32d9; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #ef32d9 , #89fffd); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #ef32d9 , #89fffd); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 h1 {
   color: white;
   font-size: 1em;
@@ -38,6 +44,7 @@ h1 {
   padding: 15px;
   position: relative;
   box-shadow: 1px 3px 3px 1px #111;
+  margin: 40px auto 0 auto;
 }
 .inner {
   position: absolute;

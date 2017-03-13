@@ -23,7 +23,7 @@ function configureSequence() {
   for (let i=0; i<sequence.length; i++) {
     setTimeout( function timer(){
       playAudioAndSound(sequence[i]);
-    }, i*500 );
+    }, i*600 );
   }
 }
 
@@ -85,7 +85,11 @@ $('.pad').click(function() {
     playAudioAndSound(userSequence[numberOfAttempts]);
 
     if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-      userLoses();
+      if(strictMode) {
+        userLoses();
+      } else {
+        configureSequence();
+      }
     } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
       console.log('That is the correct pad');
       numberOfAttempts++;
