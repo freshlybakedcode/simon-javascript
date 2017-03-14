@@ -45,8 +45,12 @@ function playAudioAndSound(key) {
       var audio = new Audio('./audio/simonSound4.mp3');
       var relevantPad = '#3';
       break;
+    case 4:
+      var audio = new Audio('./audio/incorrect.mp3');
+      var relevantPad = '#1, #2, #3, #0';
+      break;
     default:
-      var audio = new Audio('./audio/simonSound4.mp3');
+      console.log('Something broke in a horrendous fashion.');
   }
   audio.play();
   setTimeout(function(){
@@ -98,6 +102,7 @@ $('.pad').click(function() {
     playAudioAndSound(userSequence[numberOfAttempts]);
 
     if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
+      playAudioAndSound(4);
       if(strictMode) {
         userLoses();
       } else {
