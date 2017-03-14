@@ -1,20 +1,20 @@
-var sequence = [];
-var userSequence = [];
-var numberOfAttempts;
-var count;
-var strictMode = false;
-var powerOn =  true;
-var gameInPlay = false;
-var relevantPad;
+var sequence = [];        //Computer generated sequence
+var userSequence = [];    //User's input
+var numberOfAttempts;     //How many pads the user has pressed in a round
+var count;                //Number of rounds successfully passed
+var strictMode = false;   //Is strict mode on?
+var powerOn =  true;      //Is the power on?
+var gameInPlay = false;   //Is anyone playing a game?
+var relevantPad;          //Which pad are we dealing with right now?
 
 //Interactive page elements
-var scoreNumbers = document.querySelector('.count .number');
-var strictLed = document.querySelector('.led');
-var greenPad = document.querySelector('.pad-green');
-var redPad = document.querySelector('.pad-red');
-var bluePad = document.querySelector('.pad-blue');
-var yellowPad = document.querySelector('.pad-yellow');
-var allPads = document.getElementsByClassName('pad');
+var scoreNumbers = document.querySelector('.count .number');    //The score in the UI
+var strictLed = document.querySelector('.led');                 //The LED above the strict button
+var greenPad = document.querySelector('.pad-green');            //Green pad (0)
+var redPad = document.querySelector('.pad-red');                //Red pad (1)
+var bluePad = document.querySelector('.pad-blue');              //Blue pad (2)
+var yellowPad = document.querySelector('.pad-yellow');          //Yellow pad (3)
+var allPads = document.getElementsByClassName('pad');           //All the pads
 
 function newGameSetup() {
   sequence.length = 0;
@@ -122,10 +122,7 @@ for(i=0; i<allPads.length; i++) {
   allPads[i].addEventListener('click', function() {
     if(powerOn && gameInPlay) {
       userSequence.push(JSON.parse(this.id));
-        console.log('userSequence: ', userSequence);
-        console.log('numberOfAttempts', numberOfAttempts);
-        console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
-
+        
       if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
         playAudioAndSound(4);
         if(strictMode) {
