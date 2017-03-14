@@ -27,7 +27,7 @@ function configureSequence() {
   }
 }
 
-function playAudioAndSound(key) {
+function playAudioAndSound(key, incorrectPress) {
   switch (key) {
     case 0:
       var audio = new Audio('./audio/simonSound1.mp3');
@@ -46,8 +46,16 @@ function playAudioAndSound(key) {
       var relevantPad = '#3';
       break;
     case 4:
-      var audio = new Audio('./audio/incorrect.mp3');
-      var relevantPad = '#1, #2, #3, #0';
+      var audio = new Audio('./audio/incorrect.mp3');   //We need to additionally light up all the pads which the user hasn't touched
+      var padArray = [0,1,2,3];
+      var index = padArray.indexOf(incorrectPress);
+      padArray.splice(index, 1);
+      padArray = padArray.map(function(j) {
+        return "#" + j;
+      });
+      console.log(padArray);
+      var relevantPad = padArray.join(", ");
+      console.log(relevantPad);
       break;
     default:
       console.log('Something broke in a horrendous fashion.');
@@ -102,7 +110,7 @@ $('.pad').click(function() {
     playAudioAndSound(userSequence[numberOfAttempts]);
 
     if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-      playAudioAndSound(4);
+      playAudioAndSound(4, userSequence[numberOfAttempts]);
       if(strictMode) {
         userLoses();
       } else {
