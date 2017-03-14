@@ -27,7 +27,7 @@ function configureSequence() {
   }
 }
 
-function playAudioAndSound(key, incorrectPress) {
+function playAudioAndSound(key) {
   switch (key) {
     case 0:
       var audio = new Audio('./audio/simonSound1.mp3');
@@ -47,15 +47,7 @@ function playAudioAndSound(key, incorrectPress) {
       break;
     case 4:
       var audio = new Audio('./audio/incorrect.mp3');   //We need to additionally light up all the pads which the user hasn't touched
-      var padArray = [0,1,2,3];
-      var index = padArray.indexOf(incorrectPress);
-      padArray.splice(index, 1);
-      padArray = padArray.map(function(j) {
-        return "#" + j;
-      });
-      console.log(padArray);
-      var relevantPad = padArray.join(", ");
-      console.log(relevantPad);
+      var relevantPad = '#0, #1, #2, #3';
       break;
     default:
       console.log('Something broke in a horrendous fashion.');
@@ -107,19 +99,20 @@ $('.pad').click(function() {
       console.log('numberOfAttempts', numberOfAttempts);
       console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
 
-    playAudioAndSound(userSequence[numberOfAttempts]);
 
     if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-      playAudioAndSound(4, userSequence[numberOfAttempts]);
+      playAudioAndSound(4);
       if(strictMode) {
         userLoses();
       } else {
         giveUserAnotherChance();
       }
     } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
+      playAudioAndSound(userSequence[numberOfAttempts]);
       console.log('That is the correct pad');
       numberOfAttempts++;
     } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
+      playAudioAndSound(userSequence[numberOfAttempts]);
       console.log('That is the correct sequence! Next round.')
       count++;
       updateCount();
