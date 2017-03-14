@@ -5,6 +5,16 @@ var count;
 var strictMode = false;
 var powerOn =  true;
 var gameInPlay = false;
+var relevantPad;
+
+//Interactive page elements
+var scoreNumbers = document.querySelector('.count .number');
+var strictLed = document.querySelector('.led');
+var greenPad = document.querySelector('.pad-green');
+var redPad = document.querySelector('.pad-red');
+var bluePad = document.querySelector('.pad-blue');
+var yellowPad = document.querySelector('.pad-yellow');
+var allPads = document.getElementsByClassName('pad');
 
 function newGameSetup() {
   sequence.length = 0;
@@ -31,32 +41,48 @@ function playAudioAndSound(key) {
   switch (key) {
     case 0:
       var audio = new Audio('./audio/simonSound1.mp3');
-      var relevantPad = '#0';
+      relevantPad = greenPad;
       break;
     case 1:
       var audio = new Audio('./audio/simonSound2.mp3');
-      var relevantPad = '#1';
+      relevantPad = redPad;
       break;
     case 2:
       var audio = new Audio('./audio/simonSound3.mp3');
-      var relevantPad = '#2';
+      relevantPad = yellowPad;
       break;
     case 3:
       var audio = new Audio('./audio/simonSound4.mp3');
-      var relevantPad = '#3';
+      relevantPad = bluePad;
       break;
     case 4:
-      var audio = new Audio('./audio/incorrect.mp3');   //We need to additionally light up all the pads which the user hasn't touched
-      var relevantPad = '#0, #1, #2, #3';
+      var audio = new Audio('./audio/incorrect.mp3');
+      relevantPad = "allPads";
       break;
     default:
       console.log('Something broke in a horrendous fashion.');
   }
-  audio.play();
-  setTimeout(function(){
-    $(relevantPad).toggleClass('lit');
-  }, 500);
-  $(relevantPad).toggleClass('lit');
+  console.log(relevantPad);
+  if(powerOn) {
+    audio.play();
+    if (relevantPad !== "allPads") {            //Single pad
+      setTimeout(function(){
+        relevantPad.classList.remove('lit');
+      }, 500);
+      relevantPad.classList.add('lit');
+    } else {                                    //User made error, light up all pads
+      setTimeout(function(){
+        greenPad.classList.remove('lit');
+        redPad.classList.remove('lit');
+        bluePad.classList.remove('lit');
+        yellowPad.classList.remove('lit');
+      }, 500);
+      greenPad.classList.add('lit');
+      redPad.classList.add('lit');
+      bluePad.classList.add('lit');
+      yellowPad.classList.add('lit');
+    }
+  }
 }
 
 function giveUserAnotherChance() {
@@ -88,66 +114,72 @@ function playGame() {
 }
 
 function updateCount() {
-  $('.count .number').html(("0" + count).slice(-2));
+  scoreNumbers.innerHTML = ("0" + count).slice(-2);
 }
 
-//User input
-$('.pad').click(function() {
-  if(powerOn && gameInPlay) {
-    userSequence.push(JSON.parse(this.id));
-      console.log('userSequence: ', userSequence);
-      console.log('numberOfAttempts', numberOfAttempts);
-      console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
+//Pad input control
+for(i=0; i<allPads.length; i++) {
+  allPads[i].addEventListener('click', function() {
+    if(powerOn && gameInPlay) {
+      userSequence.push(JSON.parse(this.id));
+        console.log('userSequence: ', userSequence);
+        console.log('numberOfAttempts', numberOfAttempts);
+        console.log('userSequence[numberOfAttempts]', userSequence[numberOfAttempts], 'sequence[numberOfAttempts]', sequence[numberOfAttempts]);
 
-
-    if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
-      playAudioAndSound(4);
-      if(strictMode) {
-        userLoses();
+      if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
+        playAudioAndSound(4);
+        if(strictMode) {
+          userLoses();
+        } else {
+          giveUserAnotherChance();
+        }
+      } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
+        playAudioAndSound(userSequence[numberOfAttempts]);
+        console.log('That is the correct pad');
+        numberOfAttempts++;
+      } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
+        playAudioAndSound(userSequence[numberOfAttempts]);
+        console.log('That is the correct sequence! Next round.')
+        count++;
+        updateCount();
+        setTimeout(function(){
+          playGame();
+        }, 1500);
       } else {
-        giveUserAnotherChance();
+        console.log('Something else totally fucked itself');
       }
-    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length !== sequence.length) {
-      playAudioAndSound(userSequence[numberOfAttempts]);
-      console.log('That is the correct pad');
-      numberOfAttempts++;
-    } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
-      playAudioAndSound(userSequence[numberOfAttempts]);
-      console.log('That is the correct sequence! Next round.')
-      count++;
-      updateCount();
-      setTimeout(function(){
-        playGame();
-      }, 1500);
-    } else {
-      console.log('Something else totally fucked itself');
     }
-  }
-});
+  });
+}
 
 //Button controls
-$('.switch-slider').click(function() {
-  $(this).toggleClass('on');
+var powerSwitch = document.querySelector('.switch-slider').addEventListener('click', function() {
+  this.classList.toggle('on');
   powerOn = !powerOn;
   console.log('powerOn: ', powerOn);
   if (powerOn) {
-    $('.count .number').removeClass('hidden');
+    scoreNumbers.classList.remove('hidden');
   } else {
-    $('.count .number').addClass('hidden');
+    scoreNumbers.classList.add('hidden');
     newGameSetup();
     updateCount();
     gameInPlay = false;
+    strictLed.classList.remove('lit');
+    greenPad.classList.remove('lit');
+    redPad.classList.remove('lit');
+    bluePad.classList.remove('lit');
+    yellowPad.classList.remove('lit');
   }
 });
 
-$('.button-strict').click(function() {
+var strictButton = document.querySelector('.button-strict').addEventListener('click', function (){
   if (powerOn) {
-    $(this).prev().toggleClass('lit');
+    strictLed.classList.toggle('lit');
     strictMode = !strictMode;
   }
 });
 
-$('.button-start').click(function() {
+var startButton = document.querySelector('.button-start').addEventListener('click', function() {
   if (powerOn) {
     newGameSetup();
     playGame();
