@@ -133,9 +133,6 @@ for(i=0; i<allPads.length; i++) {
   allPads[i].addEventListener('click', function() {
     if(powerOn && gameInPlay) {
       userSequence.push(JSON.parse(this.id));
-
-      console.log('Count:', count)
-
       if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
         playAudioAndSound(4);
         if(strictMode) {
