@@ -59,6 +59,9 @@ function playAudioAndSound(key) {
       var audio = new Audio('./audio/incorrect.mp3');
       relevantPad = "allPads";
       break;
+    case 5:
+      var audio = new Audio('./audio/winner.wav');
+      relevantPad = "allPads"
     default:
       console.log('Something broke in a horrendous fashion.');
   }
@@ -103,6 +106,14 @@ function userLoses() {
   gameInPlay = false;
 }
 
+function userWins() {
+  count = ":)"
+  updateCount();
+  scoreNumbers.innerHTML = ("0" + count).slice(-2);
+  gameInPlay = false;
+  playAudioAndSound(5);
+}
+
 function playGame() {
   gameInPlay = true;
   updateCount();
@@ -122,7 +133,9 @@ for(i=0; i<allPads.length; i++) {
   allPads[i].addEventListener('click', function() {
     if(powerOn && gameInPlay) {
       userSequence.push(JSON.parse(this.id));
-        
+
+      console.log('Count:', count)
+
       if(userSequence[numberOfAttempts] !== sequence[numberOfAttempts]) {
         playAudioAndSound(4);
         if(strictMode) {
@@ -134,7 +147,7 @@ for(i=0; i<allPads.length; i++) {
         playAudioAndSound(userSequence[numberOfAttempts]);
         console.log('That is the correct pad');
         numberOfAttempts++;
-      } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length) {
+      } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length && count <= 20) {
         playAudioAndSound(userSequence[numberOfAttempts]);
         console.log('That is the correct sequence! Next round.')
         count++;
@@ -142,6 +155,9 @@ for(i=0; i<allPads.length; i++) {
         setTimeout(function(){
           playGame();
         }, 1500);
+      } else if (userSequence[numberOfAttempts] === sequence[numberOfAttempts] && userSequence.length === sequence.length && count >= 20) {
+        playAudioAndSound(5);
+        userWins();
       } else {
         console.log('Something else totally fucked itself');
       }
