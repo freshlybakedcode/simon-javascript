@@ -4,7 +4,9 @@
   "description": "A JavaScript version of the classic Simon game",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --config webpack.config.js",
+    "devw": "webpack --watch --config webpack.config.js",
+    "prod": "webpack --optimize-minimize --define process.env.NODE_ENV='production'"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,6 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "html-webpack-plugin": "^2.28.0",
     "node-sass": "^4.5.0",
-    "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
     "webpack": "^2.2.1"
   }
