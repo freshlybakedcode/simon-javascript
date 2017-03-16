@@ -21,9 +21,9 @@ My implementation of the Simon game, written in JavaScript.
 3) Run `npm run dev`
 
 #### Using in development
-After you've installed the npm modules, you should run `npm run devw` to put webpack into watch mode.  Then you're free to modify the /src/ folder files and they will be automatically rebuilt into the /dist folder.
+After you've installed the npm modules, you should run `npm run devw` to put webpack into watch mode.  Then you're free to modify the /src folder files and they will be automatically rebuilt into the /dist folder on the fly.
 
-You'll need to load the index.html file from the /dist folder to see what's going on, the /src/ folder files need compilation to work.
+In the browser you'll need to load the index.html file from the /dist folder to see what's going on; the /src folder files need compilation to work.
 
 #### Using in production
 Once you've completed development, re-run webpack with `npm run prod`.  This will produce a production version of your code which is fully minified and compiled in ES5.
