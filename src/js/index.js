@@ -1,3 +1,5 @@
+require('../sass/style.scss');
+
 var sequence = [];        //Computer generated sequence
 var userSequence = [];    //User's input
 var numberOfAttempts;     //How many pads the user has pressed in a round
@@ -129,7 +131,7 @@ function updateCount() {
 }
 
 //Pad input control
-for(i=0; i<allPads.length; i++) {
+for(var i=0; i<allPads.length; i++) {
   allPads[i].addEventListener('click', function() {
     if(powerOn && gameInPlay) {
       userSequence.push(JSON.parse(this.id));

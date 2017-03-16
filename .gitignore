@@ -1,4 +1,6 @@
 /.sass-cache
+/dist
+/node_modules
 
 # OS generated files #
 ######################

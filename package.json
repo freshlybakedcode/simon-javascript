@@ -1,0 +1,32 @@
+{
+  "name": "simon-js",
+  "version": "1.0.0",
+  "description": "A JavaScript version of the classic Simon game",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freshlybakedcode/simon-javascript.git"
+  },
+  "author": "James Brenton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freshlybakedcode/simon-javascript/issues"
+  },
+  "homepage": "https://github.com/freshlybakedcode/simon-javascript#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.0",
+    "babel-preset-env": "^1.2.2",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.27.3",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^2.28.0",
+    "node-sass": "^4.5.0",
+    "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.3",
+    "webpack": "^2.2.1"
+  }
+}
