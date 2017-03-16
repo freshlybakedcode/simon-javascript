@@ -3,7 +3,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const isProduction = env.production === true;
 
 module.exports = (env = {}) => {
   return {
@@ -17,9 +16,9 @@ module.exports = (env = {}) => {
   	module: {
   		rules: [
   			{
-  				test: /\.js$/,
-  				use: 'babel-loader',
-  				exclude: '/node_modules/'
+          test: /\.js$/,
+          use: ['babel-loader', 'eslint-loader'],
+          exclude: '/node_modules/'
   			},
   			{
   				test: /\.(scss|sass)$/,
